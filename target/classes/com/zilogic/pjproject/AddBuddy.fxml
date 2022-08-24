@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXButton?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="290.0" prefWidth="423.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.zilogic.pjproject.AddBuddyController">
+   <children>
+      <Pane layoutY="-5.0" prefHeight="297.0" prefWidth="423.0" style="-fx-background-color: black;">
+         <children>
+            <TextField fx:id="buddyName" alignment="CENTER" layoutX="196.0" layoutY="81.0" prefHeight="36.0" prefWidth="198.0" promptText="buddy name">
+               <font>
+                  <Font name="Monospaced Bold Italic" size="19.0" />
+               </font>
+            </TextField>
+            <Label layoutX="35.0" layoutY="81.0" prefHeight="36.0" prefWidth="136.0" text="Buddy Name" textFill="#f2ecec">
+               <font>
+                  <Font name="Monospaced Bold" size="19.0" />
+               </font>
+            </Label>
+            <JFXButton fx:id="saveBtn" buttonType="RAISED" layoutX="14.0" layoutY="242.0" onAction="#save" ripplerFill="#2ac61f" text="save" textFill="WHITE">
+               <font>
+                  <Font name="Monospaced Bold Italic" size="16.0" />
+               </font>
+            </JFXButton>
+            <JFXButton fx:id="closeBtn" buttonType="RAISED" layoutX="341.0" layoutY="242.0" onAction="#close" ripplerFill="#28d318" text="close" textFill="#ebe7e7">
+               <font>
+                  <Font name="Monospaced Bold Italic" size="16.0" />
+               </font>
+            </JFXButton>
+         </children>
+      </Pane>
+   </children>
+</AnchorPane>

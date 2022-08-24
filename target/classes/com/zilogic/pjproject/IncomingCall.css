@@ -1,0 +1,72 @@
+.grid {
+    -fx-background-color: red;
+    -fx-background-radius: 5.0;
+    -fx-background-insets: 0.0 5.0 0.0 5.0;
+    -fx-padding: 10;
+    -fx-hgap: 10;
+    -fx-vgap: 10;
+}
+
+.txtid {
+    -fx-background-color: red;
+    -fx-color:red;
+}
+
+.disconnectBtn {
+    -fx-background-radius: 4em;
+    -fx-min-width: 75px;
+    -fx-min-height: 75px;
+    -fx-max-width: 75px;
+    -fx-max-height: 75px;
+    -fx-border-color: light-grey;
+    -fx-background-insets: 8.0 8.0 8.0 8.0;
+}
+
+#end{
+    -fx-border-radius:4em;
+    -fx-background-radius:4em;
+}
+.btn1 {
+    -fx-background-radius: 4em;
+    -fx-min-width: 120px;
+    -fx-min-height: 120px;
+    -fx-max-width: 120px;
+    -fx-max-height: 120px;
+    -fx-border-color: light-grey;
+    -fx-background-color: white;
+    -fx-background-insets: 8.0 8.0 8.0 8.0;
+}
+.bp {
+    -fx-background-color: linear-gradient(from 25% 25% to 100% 100%, #ff5d48, #c9c9c9);
+}
+.btn2 {
+    -fx-background-radius: 4em;
+    -fx-min-width: 120px;
+    -fx-min-height: 120px;
+    -fx-max-width: 120px;
+    -fx-max-height: 120px;
+    -fx-border-color: light-grey;
+    -fx-background-color: white;
+    -fx-background-insets: 8.0 8.0 8.0 8.0;
+}
+
+.line {
+    -fx-background-color: red;
+}
+
+.linetwo {
+    -fx-background-color: red;
+}
+
+.round_btn:hover {
+    -fx-background-color: gray,transparent;
+    -fx-border-color: transparent;
+}
+
+.round_btn {
+    -fx-background-radius: 4em;
+    -fx-min-width: 60px;
+    -fx-min-height: 60px;
+    -fx-max-width: 60px;
+    -fx-max-height: 60px;
+}
