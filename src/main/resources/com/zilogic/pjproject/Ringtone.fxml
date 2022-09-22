@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXButton?>
+<?import com.jfoenix.controls.JFXListView?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.text.Font?>
+
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="456.0" prefWidth="337.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.zilogic.pjproject.RingtoneController">
+   <center>
+      <Pane prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: #b5086b;" BorderPane.alignment="CENTER">
+         <children>
+            <JFXListView fx:id="ringtones" layoutX="69.0" layoutY="82.0" prefHeight="322.0" prefWidth="200.0" />
+            <Label alignment="CENTER" contentDisplay="CENTER" layoutX="31.0" layoutY="14.0" prefHeight="40.0" prefWidth="260.0" text="RingTone" textFill="#fcfcfc">
+               <font>
+                  <Font name="Comic Sans MS" size="20.0" />
+               </font></Label>
+            <JFXButton fx:id="add" buttonType="RAISED" layoutX="145.0" layoutY="416.0" onAction="#addRingTone" ripplerFill="BLACK" text="add" textFill="#f0f0f0">
+               <font>
+                  <Font name="Comic Sans MS" size="16.0" />
+               </font>
+            </JFXButton>
+         </children>
+      </Pane>
+   </center>
+</BorderPane>

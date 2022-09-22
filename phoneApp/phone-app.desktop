@@ -1,0 +1,10 @@
+[Desktop Entry]
+Name=Phone
+GenericName=Phone
+Comment=Correlate users with this device.
+Keywords=users;
+Exec=/usr/local/bin/phone %U
+Icon=/usr/local/bin/phone.jpg
+Terminal=false
+Type=Application
+

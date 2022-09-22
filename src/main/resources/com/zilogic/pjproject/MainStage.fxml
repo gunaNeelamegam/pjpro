@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXButton?>
+<?import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView?>
+<?import javafx.scene.Cursor?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="514.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.zilogic.pjproject.MainStageController">
+    <children>
+        <BorderPane fx:id="borderPane" layoutX="200.0" layoutY="18.0" style="-fx-background-color: white;" styleClass="anchor" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+            <top>
+                <HBox prefHeight="41.0" prefWidth="600.0" BorderPane.alignment="CENTER">
+               <children>
+                  <Label prefHeight="69.0" prefWidth="600.0" style="-fx-alignment: center; -fx-background-color: #b5086b;" text="Phone" textFill="#ebeaea">
+                     <font>
+                        <Font name="Comic Sans MS" size="29.0" />
+                     </font>
+                     <cursor>
+                        <Cursor fx:constant="OPEN_HAND" />
+                     </cursor>
+                  </Label>
+               </children>
+                </HBox>
+            </top>
+            <left>
+                <VBox prefHeight="455.0" prefWidth="108.0" style="-fx-background-color: #b5086b;" BorderPane.alignment="CENTER">
+                    <children>
+                        <JFXButton fx:id="accountbtn" buttonType="RAISED" contentDisplay="TOP" onAction="#accountButton" prefHeight="90.0" prefWidth="108.0" ripplerFill="#171210" text="Account" textFill="#fcfcfc">
+                            <font>
+                                <Font name="Comic Sans MS Bold" size="18.0" />
+                            </font>
+                     <graphic>
+                        <FontAwesomeIconView fill="#fcfcfc" glyphName="GITHUB" size="30" text="" wrappingWidth="26.0" />
+                     </graphic>
+                        </JFXButton>
+                        <JFXButton fx:id="buddybtn" buttonType="RAISED" contentDisplay="TOP" layoutX="10.0" layoutY="10.0" onAction="#buddyButton" prefHeight="90.0" prefWidth="120.0" ripplerFill="BLACK" text="Buddy" textFill="WHITE">
+                            <font>
+                                <Font name="Comic Sans MS Bold" size="20.0" />
+                            </font>
+                     <graphic>
+                        <FontAwesomeIconView fill="WHITE" glyphName="GITHUB" size="30" />
+                     </graphic>
+                        </JFXButton>
+                        <JFXButton fx:id="OutCall" buttonType="RAISED" contentDisplay="TOP" layoutX="10.0" layoutY="100.0" onAction="#callButton" prefHeight="90.0" prefWidth="120.0" ripplerFill="BLACK" text="Call" textFill="WHITE">
+                            <font>
+                                <Font name="Comic Sans MS Bold" size="21.0" />
+                            </font>
+                     <graphic>
+                        <FontAwesomeIconView fill="WHITE" glyphName="PHONE" size="30" />
+                     </graphic>
+                        </JFXButton>
+                        <JFXButton fx:id="message_Stage" alignment="CENTER" buttonType="RAISED" contentDisplay="TOP" layoutX="10.0" layoutY="190.0" onAction="#loadmessage" prefHeight="90.0" prefWidth="120.0" ripplerFill="BLACK" text="Message" textFill="WHITE">
+                            <font>
+                                <Font name="Comic Sans MS" size="20.0" />
+                            </font>
+                     <graphic>
+                        <FontAwesomeIconView fill="WHITE" glyphName="INBOX" size="30" />
+                     </graphic>
+                        </JFXButton>
+                        <JFXButton alignment="CENTER" buttonType="RAISED" contentDisplay="TOP" layoutX="10.0" layoutY="280.0" onAction="#loadRingtone" prefHeight="110.0" prefWidth="108.0" ripplerFill="BLACK" text="RINGTONE" textFill="WHITE">
+                            <font>
+                                <Font name="Comic Sans MS Bold" size="15.0" />
+                            </font>
+                     <graphic>
+                        <FontAwesomeIconView fill="WHITE" glyphName="MUSIC" size="25" />
+                     </graphic>
+                        </JFXButton>
+                    </children>
+                </VBox>
+            </left>
+        </BorderPane>
+    </children>
+</AnchorPane>
