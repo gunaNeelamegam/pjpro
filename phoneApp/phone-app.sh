@@ -1,6 +1,6 @@
 #!/bin/bash
 
-JAVAFX=/home/user/Downloads/javafx-sdk-18.0.1/lib
+JAVAFX=/usr/share/openjfx/lib/
 JAR=/usr/lib/
 
 ## zenity --info --text "############\Phone\n###########\n"

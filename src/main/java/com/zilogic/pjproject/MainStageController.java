@@ -2,16 +2,19 @@ package com.zilogic.pjproject;
 
 import com.jfoenix.controls.JFXButton;
 import static com.zilogic.pjproject.MyAccount.INCOMINGCALL;
+import com.zilogic.pjproject.utils.MongoDb;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.application.Platform;
 import javafx.concurrent.Task;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 import org.pjsip.pjsua2.AccountConfig;
@@ -22,6 +25,7 @@ public class MainStageController implements Initializable {
 
 //Account user authication
     AuthCredInfo auth;
+
     boolean exitIncomingCall = false;
     //MyApp has all utility function are created...
     private static MyApp app = new MyApp();
@@ -34,6 +38,8 @@ public class MainStageController implements Initializable {
     public static Stage add_buddy_stage;
     @FXML
     public static Stage message_Stage;
+    @FXML
+    public static Stage ringTone_Stage;
     private static MyObserver observer = new MyObserver();
     public static MyAccount account = null;
     private static AccountConfig accCfg = null;
@@ -42,15 +48,27 @@ public class MainStageController implements Initializable {
     static Stage incoming_stage = null;
     static int i = 0;
     @FXML
-    JFXButton incomingCallBtn;
+    JFXButton accountbtn;
+    /*
+    @param methid is used to verfify the incoming call is Arrived or not
+     */
+    static Task<Void> task;
+    static Task<Void> dis_connect;
+    static Task<Void> register;
+    static Thread registerThread;
+    static Thread incomingThread;
+    static Thread closingUI;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
 
         try {
+
             app.init((MyAppObserver) observer, ".", true);
             loadingIncomingUI();
             dis_ConnectCallStage();
+            closingUI.start();
+            incomingThread.start();
         } catch (Exception ex) {
             System.err.println(" Excpetion while loading the runWorker");
         }
@@ -71,7 +89,7 @@ public class MainStageController implements Initializable {
     }
 
     @FXML
-    public void loadmessage() throws Exception {
+    public void loadmessage(ActionEvent event) throws Exception {
         try {
             message_Stage = new Stage();
             Parent root = FXMLLoader.load(getClass().getResource("Message.fxml"));
@@ -84,12 +102,60 @@ public class MainStageController implements Initializable {
         }
     }
 
-    /*
-    @param methid is used to verfify the incoming call is Arrived or not
-     */
-    static Task<Void> task;
+    @FXML
+    public void loadRingtone() throws IOException {
+        ringTone_Stage = new Stage();
+        Scene scene = new Scene(FXMLLoader.load(getClass().getResource("Ringtone.fxml")));
+        ringTone_Stage.setScene(scene);
+        ringTone_Stage.setTitle("Ringtone");
+        ringTone_Stage.show();
+    }
+
+    private void showAlert() {
+        try {
+            if (MyAccount.REGISTERSTATE == -1) {
+                Alert registerSuccess = new Alert(Alert.AlertType.INFORMATION);
+                registerSuccess.setTitle("Account  ");
+                registerSuccess.setContentText("Account Register Successfully ");
+                registerSuccess.showAndWait();
+                MyAccount.REGISTERSTATE = 0;
+            }
+        } catch (Exception e) {
+
+        } finally {
+            this.registerThread.stop();
+        }
+//        if (MyAccount.REGISTERSTATE == -1) {
+//            Alert registerSuccess = new Alert(Alert.AlertType.ERROR);
+//            registerSuccess.setTitle("Account  ");
+//            registerSuccess.setContentText("Account Register ERROR ");
+//            registerSuccess.showAndWait();
+//            MyAccount.REGISTERSTATE = 0;
+//        }
+    }
+
+    public synchronized void registerAlert() {
+        register = new Task<Void>() {
+            @Override
+            protected Void call() throws Exception {
+                try {
+                    while (true) {
+                        System.out.println("SHOW ALERT");
+                        Platform.runLater(() -> {
+                            showAlert();
+                        });
+                    }
+                } catch (Exception e) {
+                    System.out.println(e.getMessage() + "Show  alert expection");
+                }
+                return null;
+            }
+        };
+        registerThread = new Thread(register);
+    }
 
     @FXML
+
     public synchronized void loadingIncomingUI() {
 
         task = new Task<Void>() {
@@ -103,35 +169,41 @@ public class MainStageController implements Initializable {
                             INCOMINGCALL++;
                             System.out.println("INCOMING CALL fired");
                             Platform.runLater(() -> {
-                                try{
-                                IncomingCallController.incoming_Call_Ringtone();
-                                IncomingCallController ic=new IncomingCallController();
-                                loadIncomingUI();
-                                }catch(Exception e){e.getMessage();}});
+                                try {
+                                    IncomingCallController.incoming_Call_Ringtone();
+                                    IncomingCallController ic = new IncomingCallController();
+                                    loadIncomingUI();
+                                } catch (Exception e) {
+                                    e.getMessage();
+                                }
+                            });
                         }
                     } catch (Exception e) {
                         System.out.println("Exception while loading the incoming call ");
                         System.out.println(e.getMessage());
                     }
                 }
-                //   return null;
             }
 
         };
-        new Thread(task).start();
+        incomingThread = new Thread(task);
     }
 
     /*
     *creating the Thread for verfify and close the stage for the Incoming and OutGoing call stage 
      */
-    static Task<Void> dis_connect;
-
     void disConnect_UI() {
-        try{
-        if (MainStageController.incoming_stage.isShowing()) {
-            IncomingCallController.player.stopTransmit(IncomingCallController.ring_pay_back);
-            MainStageController.incoming_stage.close();
-        }}catch(Exception e){e.getMessage();}
+        try {
+            if (MainStageController.incoming_stage.isShowing()) {
+                IncomingCallController.player.stopTransmit(IncomingCallController.ring_pay_back);
+                MainStageController.incoming_stage.close();
+            }
+            if (MainStageController.outGoingCallStage.isShowing()) {
+                MainStageController.outGoingCallStage.close();
+            }
+        } catch (Exception e) {
+            e.getMessage();
+        }
     }
 
     @FXML
@@ -148,6 +220,7 @@ public class MainStageController implements Initializable {
                             MyCall.DISCONNECTCALL = 0;
                             System.out.println("DISCCONECT STAGE ");
                             Platform.runLater(() -> {
+                                new OutGoingCallController().getCallStatusThread().stop();
                                 disConnect_UI();
                             });
                         }
@@ -159,7 +232,8 @@ public class MainStageController implements Initializable {
             }
 
         };
-        new Thread(dis_connect).start();
+//        new Thread(dis_connect).start();
+        closingUI = new Thread(dis_connect);
     }
 
     @FXML
@@ -194,8 +268,6 @@ public class MainStageController implements Initializable {
         add_buddy_stage.showAndWait();
     }
 
-  
-
     /*
     @param method is used for creating the account using the External Thread for polling the Event
      */
@@ -222,11 +294,6 @@ public class MainStageController implements Initializable {
                 System.out.println("account uri : " + acc.getInfo().getUri());
             }
             acc.setDefault();
-//            System.out.println(" Registeration Status Expiry time : " + acc.getInfo().getRegExpiresSec());
-//            System.out.println(" Account default : " + acc.isDefault() + "    ");
-//            System.out.println(acc.isValid());
-//            acc.getInfo().setOnlineStatus(true);
-//            System.out.println(accinfo.getOnlineStatus() + "Account status  text :" + accinfo.getOnlineStatusText());
         }
         if (account != null) {
             return account;

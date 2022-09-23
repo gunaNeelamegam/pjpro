@@ -21,7 +21,8 @@ class MyCall extends Call {
 
     public VideoPreview vidPrev;
     static int DISCONNECTCALL = 0;
-
+    static String CALLSTATE;
+    static int CALLDURATION;
     MyCall(MyAccount paramMyAccount, int paramInt) {
         super((Account) paramMyAccount, paramInt);
         this.vidWin = null;
@@ -31,6 +32,9 @@ class MyCall extends Call {
     public void onCallState(OnCallStateParam paramOnCallStateParam) {
         try {
             CallInfo callInfo = getInfo();
+            CALLSTATE = callInfo.getStateText();
+            CALLDURATION=callInfo.getConnectDuration().getSec();
+            System.out.println(callInfo.getTotalDuration().getSec());
             System.out.println("=====================================");
             if (callInfo.getState() == 6) {
                 DISCONNECTCALL = 6;

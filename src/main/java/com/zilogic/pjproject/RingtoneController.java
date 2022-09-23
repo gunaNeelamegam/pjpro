@@ -1,16 +1,20 @@
 package com.zilogic.pjproject;
 
+import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXListView;
 import java.io.File;
 import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.Node;
 import javafx.scene.control.SelectionMode;
 import javafx.stage.FileChooser;
-import org.pjsip.pjsua2.pjmedia_file_player_option;
+import javafx.stage.Stage;
+import javafx.stage.Window;
 
 /**
  *
@@ -19,34 +23,47 @@ import org.pjsip.pjsua2.pjmedia_file_player_option;
 public class RingtoneController implements Initializable {
 
     @FXML
-    private JFXListView<String> ringtonels;
-
+    private JFXListView<String> ringtones;
+    @FXML
+    private JFXButton add;
     ObservableList<String> ring_obs = FXCollections.observableArrayList();
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        loadallRingtone();
+        try {
+            loadallRingtone();
+        } catch (Exception ex) {
+        }
     }
 
-    private void loadallRingtone() {
-        ring_obs.add("/home/user/NetBeansProjects/PjProject/src/main/resources/com/zilogic/pjproject/Tum-Tum-MassTamilan.fm.wav");
-        ringtonels.setItems(ring_obs);
-        ringtonels.setOnMouseClicked(e -> {
+    private void loadallRingtone() throws Exception {
+        ring_obs.add(file.getAbsolutePath());
+        ringtones.setItems(ring_obs);
+        ringtones.setOnMouseClicked(e -> {
             System.out.println("Event : " + e.getPickResult());
-            ringtonels.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
+            ringtones.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
             try {
-                IncomingCallController.player.createPlayer(ringtonels.getSelectionModel().getSelectedItem(), pjmedia_file_player_option.PJMEDIA_FILE_NO_LOOP);
+//                IncomingCallController.player.createPlayer(ringtones.getSelectionModel().getSelectedItem(), pjmedia_file_player_option.PJMEDIA_FILE_NO_LOOP);
             } catch (Exception ex) {
             }
         });
     }
+    FileChooser ringtoneSelection = new FileChooser();
+    private File file;
 
     @FXML
-    private void addRingTone() throws Exception {
-        FileChooser ringtoneSelection = new FileChooser();
-        ringtoneSelection.setSelectedExtensionFilter(new FileChooser.ExtensionFilter(".wav", ring_obs));
-        ringtoneSelection.setInitialDirectory(new File("~/Downloads"));
+    private void addRingTone(ActionEvent event) throws Exception {
+        ringtoneSelection.setSelectedExtensionFilter(new FileChooser.ExtensionFilter("wav  formatted file", ".wav"));
+        ringtoneSelection.setTitle("Ringtone");
+        Node node = (Node) event.getSource();
+        Window window = new Window() {
+        };
+        getFile(window);
+    }
 
+    private File getFile(Window window) {
+        file = ringtoneSelection.showOpenDialog(window);
+        return file.getAbsoluteFile();
     }
 
 }

@@ -1,14 +1,19 @@
 package com.zilogic.pjproject;
 
 import com.jfoenix.controls.JFXButton;
-import static com.zilogic.pjproject.MessageController.i;
-import java.util.ArrayList;
+import com.mongodb.MongoClient;
+import com.mongodb.MongoCredential;
+import com.mongodb.client.MongoCollection;
+import com.mongodb.client.MongoDatabase;
+import com.zilogic.pjproject.utils.MongoDb;
+import com.zilogic.pjproject.utils.PropertyFile;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.TextField;
+import org.bson.Document;
 import org.pjsip.pjsua2.BuddyConfig;
 
 /**
@@ -17,7 +22,23 @@ import org.pjsip.pjsua2.BuddyConfig;
  */
 public class AddBuddyController {
 
-    BuddyConfig bdy = new BuddyConfig();
+    private BuddyConfig bdy = new BuddyConfig();
+    private MyApp app = new MyApp();
+     ObservableList<AddBuddy> observer_buddy = FXCollections.observableArrayList();
+     AddBuddy buddy = null;
+    private MongoDb mongodb = new MyApp().getMongodb();
+    private MyBuddy mybud = null;
+    private MongoDatabase database = mongodb.getDb();
+    private MongoCollection collection = database.getCollection("Buddy");
+
+    public MongoCollection getCollection() {
+        return collection;
+    }
+
+    public void setCollection(MongoCollection collection) {
+        this.collection = collection;
+    }
+
     @FXML
     public TextField buddyName;
 
@@ -27,19 +48,12 @@ public class AddBuddyController {
     @FXML
     private JFXButton saveBtn;
 
-    MyApp app = new MyApp();
-
-    String[] buddyN = new String[10];
-    public ArrayList<AddBuddy> buddyDetails = new ArrayList<AddBuddy>();
-    ObservableList<AddBuddy> observer_buddy = FXCollections.observableArrayList();
-
-    MyBuddy mybud = null;
-
     @FXML
     void close(ActionEvent event) {
         MainStageController.add_buddy_stage.close();
     }
 
+    //SAVE INTO THE PJSUA2 ACCOUNT
     @FXML
     void save() {
         Platform.runLater(() -> {
@@ -52,22 +66,33 @@ public class AddBuddyController {
         MainStageController.add_buddy_stage.close();
     }
 
+    //Adding buddy to MongoDb
+    private void AddingDocs() {
+        try {
+            Document buddy = new Document("_id", bdy.getUri());
+            buddy.append(" domain", bdy.getUri().substring(9));
+            buddy.append("user", buddyName.getText());
+            buddy.append("subscribe", bdy.getSubscribe());
+            this.collection.insertOne(buddy);
+            System.out.println("Document added  into Collection");
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+    }
+
     private void add_Buddy() throws Exception {
         MyAccount acc = MyApp.accList.get(0);
+        buddy=new AddBuddy();
         bdy.setUri("sip:" + buddyName.getText().trim() + "@" + acc.getInfo().getUri().substring(9));
         bdy.setSubscribe(true);
-        AddBuddy buddy = new AddBuddy(buddyName.getText());
-//        buddyDetails.add(buddy);
         observer_buddy.add(buddy);
         mybud = acc.addBuddy(bdy);
         System.out.println("Buddy added Successfully");
+        this.AddingDocs();
         app.saveConfig("pjsua2.json");
-        for (AddBuddy b : buddyDetails) {
-            int i = 0;
-            buddyN[i] = b.getBuddyUserName();
-        }
     }
 }
+
 // @FXML
 /* synchronized void save(ActionEvent event) throws Exception {
 

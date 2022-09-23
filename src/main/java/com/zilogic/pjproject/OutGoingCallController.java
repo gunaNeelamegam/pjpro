@@ -6,6 +6,7 @@ import java.util.ResourceBundle;
 import javafx.animation.FadeTransition;
 import javafx.animation.Timeline;
 import javafx.application.Platform;
+import javafx.concurrent.Task;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -14,15 +15,51 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.Pane;
 import javafx.scene.shape.Circle;
 import javafx.util.Duration;
-import org.pjsip.pjsua2.AudioMedia;
-import org.pjsip.pjsua2.AudioMediaPlayer;
 import org.pjsip.pjsua2.CallOpParam;
 import org.pjsip.pjsua2.SendInstantMessageParam;
-import org.pjsip.pjsua2.pjmedia_file_player_option;
 import org.pjsip.pjsua2.pjsip_status_code;
 import org.pjsip.pjsua2.pjsua_call_flag;
 
 public class OutGoingCallController implements Initializable {
+
+    MyCall currentCall = null;
+    private MyObserver observer = new MyObserver();
+    Task callStatustask;
+    Thread callStatusThread = new Thread(this.callStatustask);
+    @FXML
+    Label callStatus;
+
+    public Label getCallStatus() {
+        return callStatus;
+    }
+
+    public void setCallStatus(Label callStatus) {
+        this.callStatus = callStatus;
+    }
+
+    public MyCall getCurrentCall() {
+        return currentCall;
+    }
+
+    @FXML
+    private Circle circle;
+
+    @FXML
+    private JFXButton hangUp;
+
+//    @FXML
+//    private JFXButton mute;
+
+    @FXML
+    private JFXButton unHoldCall;
+
+    @FXML
+    private JFXButton unMute;
+    @FXML
+    private JFXButton holdCall;
+
+    @FXML
+    private TextField text;
 
     @FXML
     FadeTransition ft;
@@ -40,36 +77,42 @@ public class OutGoingCallController implements Initializable {
     @FXML
     private JFXButton call;
 
-    @FXML
-    Label callStatus;
+    private void updateing_callStatus() throws InterruptedException {
+        Thread updateStatus = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    var updater = new Runnable() {
+                        @Override
+                        public void run() {
+                            try {
+                                MyApp.ep.libHandleEvents(10L);
+                                System.out.println("Call status" + currentCall.getInfo().getStateText());
+                                callStatus.setText(currentCall.getInfo().getStateText() + " " + currentCall.getInfo().getConnectDuration().getSec());
+                            } catch (Exception ex) {
 
-    @FXML
-    private Circle circle;
+                            }
+                        }
+                    };
+                    while (currentCall.getInfo().getState() != 6) {
+                        Thread.sleep(1000);
+                        Platform.runLater(updater);
+                    }
+                } catch (Exception e) {
+                }
+            }
+        });
+        updateStatus.start();
+    }
 
-    @FXML
-    private JFXButton hangUp;
-
-    @FXML
-    private JFXButton mute;
-
-    @FXML
-    private JFXButton unHoldCall;
-
-    @FXML
-    private JFXButton unMute;
-    @FXML
-    private JFXButton holdCall;
-
-    @FXML
-    private TextField text;
-    static boolean exitThreadCalling = false;
-    MyCall currentCall = null;
-    private MyObserver observer = new MyObserver();
+    public Thread getCallStatusThread() {
+        return callStatusThread;
+    }
 
     void call() {
         try {
-            c.setStyle("-fx-background-color: linear-gradient(from 25% 25% to 100% 100%, #00FF00, #FFFFFF)");
-            ft = new FadeTransition(Duration.millis(1000), c);
+            c.setStyle("-fx-background-color: linear-gradient(from 25% 25% to 100% 100%,#b5086b, #FFFFFF)");
+            ft = new FadeTransition(Duration.millis(2000), c);
             ft.setFromValue(1.0);
             ft.setToValue(0.6);
             ft.setCycleCount(Timeline.INDEFINITE);
@@ -79,9 +122,15 @@ public class OutGoingCallController implements Initializable {
         }
     }
 
+
     @FXML
     void hangUpCall() throws Exception {
+        if (currentCall == null) {
+            hangUp.setDisable(true);
+        }
         if (currentCall != null) {
+            hangUp.setDisable(false);
+            hangUp.setFocusTraversable(true);
             System.out.println(" Call : " + call.toString());
             CallOpParam callParam = new CallOpParam();
             callParam.setStatusCode(pjsip_status_code.PJSIP_SC_OK);
@@ -136,19 +185,49 @@ public class OutGoingCallController implements Initializable {
     }
 
     @FXML
-    public void makeCall() {
+    public void makeCall() throws InterruptedException {
+
         Platform.runLater(() -> {
             try {
                 MyAccount acc = MyApp.accList.get(0);
                 acc.setDefault();
                 currentCall = new MyCall(acc, 0);
-                CallOpParam prm = new CallOpParam();
-                currentCall.makeCall("sip:" + text.getText().trim() + "@" + acc.getInfo().getUri().substring(9), prm);
-                callStatus.setText(currentCall.getInfo().getStateText());
+                try {
+                    CallOpParam prm = new CallOpParam();
+                    prm.getOpt().setAudioCount(1);
+                    prm.getOpt().setVideoCount(1);
+                    currentCall.makeCall("sip:" + text.getText().trim() + "@" + acc.getInfo().getUri().substring(9), prm);
+                } catch (Exception e) {
+                    System.out.println("VIDEO CALL");
+                }
+                callStatusThread.start();
                 call.setDisable(true);
             } catch (Exception ex) {
             }
         });
+
+    }
+
+    private void analyseCallState() {
+
+        callStatustask = new Task() {
+            @Override
+            protected Object call() throws Exception {
+                while (true) {
+                    if (getCurrentCall() != null) {
+                        Platform.runLater(() -> {
+                            try {
+                                callStatus.setText(MyCall.CALLSTATE.concat(String.valueOf(MyCall.CALLDURATION)));
+                            } catch (Exception e) {
+                                System.out.println(e.getCause());
+                            }
+                        });
+                    }
+                }
+//                return null;
+            }
+        };
+
     }
 
     @FXML
@@ -164,6 +243,8 @@ public class OutGoingCallController implements Initializable {
                 messageStatus.setText("sended   :)");
             } catch (Exception e) {
                 messageStatus.setText("failed --");
+            } finally {
+                textmes.setText("");
             }
         }
 
@@ -171,6 +252,11 @@ public class OutGoingCallController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+        try {
+            updateing_callStatus();
+        } catch (InterruptedException ex) {
+
+        }
         call();
     }
 }

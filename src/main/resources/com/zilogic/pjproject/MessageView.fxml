@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXButton?>
+<?import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.Cursor?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane fx:id="messageRoot" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="582.0" prefWidth="337.0" style="-fx-background-radius: 20;" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.zilogic.pjproject.MessageViewController">
+   <children>
+      <Pane layoutX="-1.0" layoutY="1.0" prefHeight="582.0" prefWidth="344.0" style="-fx-background-color: linear-gradient(from 25% 25% to 100% 100%,#b5086b, #FFFFFF);">
+         <children>
+            <Label fx:id="userName" alignment="CENTER" contentDisplay="CENTER" layoutX="-1.0" layoutY="-1.0" prefHeight="50.0" prefWidth="345.0" style="-fx-background-color: #b5086b;" text=" " textFill="WHITE">
+               <font>
+                  <Font name="FreeMono Bold" size="21.0" />
+               </font>
+            </Label>
+            <JFXButton fx:id="search" buttonType="RAISED" contentDisplay="CENTER" layoutX="276.0" layoutY="-2.0" prefHeight="50.0" prefWidth="59.0" ripplerFill="BLACK" style="-fx-background-radius: 50;" text=" " textFill="WHITE">
+               <graphic>
+                  <FontAwesomeIconView fill="WHITE" glyphName="SEARCH" size="25" wrappingWidth="8.071428298950195" />
+               </graphic>
+            </JFXButton>
+            <Label fx:id="userName" layoutX="8.0" layoutY="15.0" prefHeight="34.0" prefWidth="69.0" textFill="WHITE">
+               <font>
+                  <Font name="Comic Sans MS" size="17.0" />
+               </font>
+               <cursor>
+                  <Cursor fx:constant="OPEN_HAND" />
+               </cursor>
+            </Label>
+            <HBox layoutX="-1.0" layoutY="522.0" prefHeight="58.0" prefWidth="337.0">
+               <children>
+                  <TextField fx:id="message" onAction="#sendTypingMessage" prefHeight="24.0" prefWidth="238.0" promptText="message" style="-fx-background-radius: 20;">
+                     <font>
+                        <Font name="Comic Sans MS" size="19.0" />
+                     </font>
+                     <HBox.margin>
+                        <Insets left="10.0" top="10.0" />
+                     </HBox.margin>
+                  </TextField>
+                  <JFXButton fx:id="sendBtn" buttonType="RAISED" onAction="#sendMessage" prefHeight="53.0" prefWidth="62.0" ripplerFill="#0d0606" text=" ">
+                     <graphic>
+                        <FontAwesomeIconView fill="#871b4f" glyphName="SEND" size="25" />
+                     </graphic>
+                     <HBox.margin>
+                        <Insets left="20.0" />
+                     </HBox.margin>
+                  </JFXButton>
+               </children>
+            </HBox>
+            <Label layoutX="120.0" layoutY="6.0" prefHeight="34.0" prefWidth="96.0">
+               <font>
+                  <Font name="Comic Sans MS Bold" size="25.0" />
+               </font>
+            </Label>
+            <JFXButton fx:id="back" buttonType="RAISED" layoutX="12.0" layoutY="13.0" onAction="#back" prefHeight="39.0" prefWidth="62.0" ripplerFill="#070303" text=" ">
+               <graphic>
+                  <FontAwesomeIconView fill="WHITE" glyphName="ARROW_LEFT" size="25" />
+               </graphic>
+            </JFXButton>
+         </children>
+      </Pane>
+   </children>
+</AnchorPane>

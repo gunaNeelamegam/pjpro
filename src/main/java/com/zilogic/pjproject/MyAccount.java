@@ -6,10 +6,6 @@ package com.zilogic.pjproject;
  */
 import static com.zilogic.pjproject.AddAccountController.exitRegThread;
 import java.util.ArrayList;
-import javafx.application.Platform;
-import javafx.concurrent.Task;
-import javafx.fxml.FXMLLoader;
-import javafx.stage.Stage;
 import org.pjsip.pjsua2.Account;
 import org.pjsip.pjsua2.AccountConfig;
 import org.pjsip.pjsua2.BuddyConfig;
@@ -21,12 +17,13 @@ import org.pjsip.pjsua2.pjsip_status_code;
 
 class MyAccount extends Account {
 
-    static int INCOMINGCALL = 0;
+    static int INCOMINGCALL=0;
     int i = 0;
     static MyCall currentCall;
     public ArrayList<MyBuddy> buddyList = new ArrayList<>();
 
     public AccountConfig cfg;
+    static int REGISTERSTATE = 0;
 
     public MyAccount() {
     }
@@ -68,9 +65,12 @@ class MyAccount extends Account {
     public synchronized void onRegState(OnRegStateParam paramOnRegStateParam) {
         System.out.println(paramOnRegStateParam.getStatus());
         if (paramOnRegStateParam.getStatus() == pjsip_status_code.PJSIP_SC_OK) {
+            REGISTERSTATE = 1;
             MyApp.observer.notifyRegState(paramOnRegStateParam.getCode(), paramOnRegStateParam.getReason(), paramOnRegStateParam
                     .getExpiration());
-            exitRegThread = true;
+
+        } else {
+            REGISTERSTATE = -1;
         }
     }
 

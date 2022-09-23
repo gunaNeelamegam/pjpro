@@ -10,7 +10,7 @@ class AddAccount {
 
     @Override
     public String toString() {
-        return "AddAccount{" + "username=" + username + ", password=" + password + ", domainAddress=" + domainAddress + '}';
+        return  username ;
     }
 
     public void setUsername(String username) {

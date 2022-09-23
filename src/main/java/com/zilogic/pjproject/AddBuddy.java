@@ -8,24 +8,30 @@ package com.zilogic.pjproject;
  *
  * @author user
  */
-class AddBuddy {
+public class AddBuddy {
 
-    public AddBuddy(String buddyUserName) {
-        this.buddyUserName = buddyUserName;
+    public String getUri() {
+        return uri;
     }
+
+    public void setUri(String uri) {
+        this.uri = uri;
+    }
+
+    public String getSubscribe() {
+        return subscribe;
+    }
+
+    public void setSubscribe(String subscribe) {
+        this.subscribe = subscribe;
+    }
+
+   
+    public String uri;
+    public String subscribe;
 
     @Override
     public String toString() {
-        return "AddBuddy{" + "buddyUserName=" + buddyUserName + '}';
+        return uri;
     }
-
-    public String getBuddyUserName() {
-        return buddyUserName;
-    }
-
-    public void setBuddyUserName(String buddyUserName) {
-        this.buddyUserName = buddyUserName;
-    }
-
-    String buddyUserName;
 }

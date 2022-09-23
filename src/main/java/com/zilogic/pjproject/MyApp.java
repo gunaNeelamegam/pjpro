@@ -1,7 +1,10 @@
 package com.zilogic.pjproject;
 
+import com.zilogic.pjproject.utils.MongoDb;
 import java.io.File;
 import java.util.ArrayList;
+import javafx.scene.control.Alert;
+import javafx.scene.control.ButtonType;
 import org.pjsip.pjsua2.AccountConfig;
 import org.pjsip.pjsua2.BuddyConfig;
 import org.pjsip.pjsua2.CodecInfo;
@@ -19,7 +22,13 @@ import org.pjsip.pjsua2.UaConfig;
 
 class MyApp {
 
-        static {
+    final MongoDb mongodb = new MongoDb();
+
+    public MongoDb getMongodb() {
+        return mongodb;
+    }
+
+    static {
         System.loadLibrary("pjsua2");
         System.loadLibrary("openh264");
     }
@@ -44,6 +53,17 @@ class MyApp {
     // private final int SIP_PORT = 5080;
     private final int LOG_LEVEL = 4;
 
+    MyAccount account;
+
+    public MyAccount getDefaultAccount() {
+        if (this.accList.size() != 0) {
+            this.account = this.accList.get(0);
+            return this.account;
+        } else {
+            return null;
+        }
+    }
+
     public void init(MyAppObserver paramMyAppObserver, String paramString) throws Exception {
         init(paramMyAppObserver, paramString, false);
     }
@@ -63,8 +83,8 @@ class MyApp {
         } else {
             this.sipTpConfig.setPort(6000L);
         }
-        this.epConfig.getLogConfig().setLevel(4L);
-        this.epConfig.getLogConfig().setConsoleLevel(4L);
+        this.epConfig.getLogConfig().setLevel(LOG_LEVEL);
+        this.epConfig.getLogConfig().setConsoleLevel(LOG_LEVEL);
         LogConfig logConfig = this.epConfig.getLogConfig();
         this.logWriter = new MyLogWriter();
         logConfig.setWriter((LogWriter) this.logWriter);
@@ -77,6 +97,7 @@ class MyApp {
         }
         try {
             ep.libInit(this.epConfig);
+//            ep.audDevManager().setNullDev();
 
         } catch (Exception exception) {
             return;
@@ -97,15 +118,13 @@ class MyApp {
             System.out.println(exception);
         }
         try {
-            this.sipTpConfig.setPort(6001L);
             ep.transportCreate(3, this.sipTpConfig);
         } catch (Exception exception) {
             System.out.println(exception);
         }
         this.sipTpConfig.setPort(6000L);
-        //To clear the all the Data inside the List 
-//        accCfgs.clear();
-//        accList.clear();
+        accCfgs.clear();
+        accList.clear();
         for (int b = 0; b < accCfgs.size(); b++) {
             MyAccountConfig myAccountConfig = accCfgs.get(b);
             myAccountConfig.accCfg.getNatConfig().setIceEnabled(true);
@@ -203,6 +222,7 @@ class MyApp {
             System.out.println("Network change detected");
             IpChangeParam ipChangeParam = new IpChangeParam();
             ep.handleIpChange(ipChangeParam);
+            new Alert(Alert.AlertType.ERROR, " Network error", ButtonType.CANCEL).show();
         } catch (Exception exception) {
             System.out.println(exception);
         }

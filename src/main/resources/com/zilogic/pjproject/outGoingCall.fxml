@@ -1,47 +1,28 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import com.jfoenix.controls.JFXButton?>
+<?import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.Cursor?>
+<?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TextField?>
+<?import javafx.scene.effect.InnerShadow?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Font?>
 
 <AnchorPane id="AnchorPane" prefHeight="564.0" prefWidth="304.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.zilogic.pjproject.OutGoingCallController">
    <children>
-      <Pane fx:id="c" layoutY="-3.0" prefHeight="564.0" prefWidth="306.0">
+      <Pane fx:id="c" layoutY="-3.0" prefHeight="564.0" prefWidth="306.0" style="-fx-background-color: linear-gradient(from 25% 25% to 100% 100%,#b5086b, #FFFFFF);">
          <children>
-            <JFXButton fx:id="call" alignment="CENTER" buttonType="RAISED" contentDisplay="CENTER" layoutX="96.0" layoutY="398.0" onAction="#makeCall" ripplerFill="#f56d0c" text="call" textFill="#322828">
-               <font>
-                  <Font size="17.0" />
-               </font>
-            </JFXButton>
-            <JFXButton fx:id="mute" alignment="CENTER" buttonType="RAISED" contentDisplay="CENTER" layoutX="186.0" layoutY="321.0" onAction="#muteCall" ripplerFill="#f56d0c" text="mute" textFill="#322828">
-               <font>
-                  <Font name="Comic Sans MS Bold" size="17.0" />
-               </font>
-            </JFXButton>
-            <JFXButton fx:id="hangUp" alignment="CENTER" buttonType="RAISED" contentDisplay="CENTER" layoutX="8.0" layoutY="322.0" onAction="#hangUpCall" ripplerFill="#f56d0c" text="hangUp" textFill="#322828">
+            <JFXButton fx:id="hangUp" alignment="CENTER" buttonType="RAISED" contentDisplay="CENTER" layoutX="203.0" layoutY="415.0" onAction="#hangUpCall" prefHeight="59.0" prefWidth="85.0" ripplerFill="BLACK" text=" " textFill="#322828">
                <font>
                   <Font name="Comic Sans MS Bold" size="16.0" />
                </font>
             </JFXButton>
-            <JFXButton fx:id="holdCall" alignment="CENTER" buttonType="RAISED" contentDisplay="CENTER" layoutX="8.0" layoutY="357.0" onAction="#hold" ripplerFill="#f56d0c" text="hold" textFill="#322828">
-               <font>
-                  <Font name="Comic Sans MS Bold" size="16.0" />
-               </font>
-            </JFXButton>
-            <JFXButton fx:id="unHoldCall" alignment="CENTER" buttonType="RAISED" contentDisplay="CENTER" layoutX="193.0" layoutY="362.0" onAction="#unHold" ripplerFill="#f56d0c" text="unHold" textFill="#322828">
-               <font>
-                  <Font name="Comic Sans MS Bold" size="17.0" />
-               </font>
-            </JFXButton>
-            <JFXButton fx:id="unMute" alignment="CENTER" buttonType="RAISED" contentDisplay="CENTER" layoutX="95.0" layoutY="323.0" onAction="#unMute_Call" ripplerFill="#f56d0c" text="unMute" textFill="#322828">
-               <font>
-                  <Font name="Comic Sans MS Bold" size="16.0" />
-               </font>
-            </JFXButton>
-            <TextField fx:id="text" alignment="CENTER" layoutX="54.0" layoutY="278.0" promptText="phone Number">
+            <TextField fx:id="text" alignment="CENTER" layoutX="70.0" layoutY="16.0" prefHeight="32.0" prefWidth="154.0" promptText="phone Number" style="-fx-background-radius: 50;">
                <font>
                   <Font name="Comic Sans MS Bold" size="15.0" />
                </font>
@@ -51,22 +32,142 @@
                   <Font size="15.0" />
                </font>
             </Label>
-            <TextField fx:id="textmes" layoutX="16.0" layoutY="483.0" onAction="#send" prefHeight="40.0" prefWidth="235.0" promptText="Text">
+            <TextField fx:id="textmes" layoutX="1.0" layoutY="510.0" onAction="#send" prefHeight="40.0" prefWidth="235.0" promptText="Text" style="-fx-background-radius: 50;">
                <font>
-                  <Font name="Monospaced Bold Italic" size="16.0" />
+                  <Font name="Comic Sans MS Bold" size="16.0" />
                </font>
             </TextField>
-            <JFXButton fx:id="send" alignment="CENTER" buttonType="RAISED" layoutX="261.0" layoutY="483.0" onAction="#send" prefHeight="36.0" prefWidth="40.0" ripplerFill="#1ab915" text=":)" textFill="#0da82c">
+            <JFXButton fx:id="send" alignment="CENTER" buttonType="RAISED" layoutX="247.0" layoutY="510.0" onAction="#send" prefHeight="36.0" prefWidth="40.0" ripplerFill="#040704" text=" " textFill="#0da82c">
                <font>
                   <Font size="21.0" />
                </font>
+               <graphic>
+                  <FontAwesomeIconView fill="#871b4f" glyphName="SEND" />
+               </graphic>
             </JFXButton>
-            <Label fx:id="callStatus" alignment="CENTER" layoutX="60.0" layoutY="110.0" prefHeight="32.0" prefWidth="186.0" style="-fx-background-color: #ebe7e7;" textFill="#e80d0d">
+            <Label fx:id="callStatus" alignment="CENTER" contentDisplay="CENTER" layoutX="60.0" layoutY="110.0" prefHeight="32.0" prefWidth="186.0" style="-fx-background-radius: 50;" textFill="#e4d7d6">
                
                                  <font>
                   <Font name="Comic Sans MS Bold" size="19.0" />
                </font>
+               <cursor>
+                  <Cursor fx:constant="OPEN_HAND" />
+               </cursor>
             </Label>
+            <HBox layoutX="7.0" layoutY="240.0" prefHeight="71.0" prefWidth="292.0">
+               <children>
+                  <Button mnemonicParsing="false" onAction="#muteCall" styleClass="round_btn" stylesheets="@IncomingCall.css">
+                     <graphic>
+                        <FontAwesomeIconView fx:id="unmute" glyphName="MICROPHONE_SLASH" size="22.0" />
+                     </graphic>
+                     <effect>
+                        <InnerShadow />
+                     </effect>
+                     <HBox.margin>
+                        <Insets top="10.0" />
+                     </HBox.margin>
+                     <padding>
+                        <Insets bottom="8.0" left="8.0" right="8.0" top="8.0" />
+                     </padding>
+                  </Button>
+                  <Button mnemonicParsing="false" onAction="#unHold" styleClass="round_btn" stylesheets="@IncomingCall.css">
+                     <graphic>
+                        <FontAwesomeIconView fx:id="unmute1" glyphName="USER" size="22.0" />
+                     </graphic>
+                     <effect>
+                        <InnerShadow />
+                     </effect>
+                     <HBox.margin>
+                        <Insets left="40.0" top="10.0" />
+                     </HBox.margin>
+                  </Button>
+                  <Button fx:id="unmute" mnemonicParsing="false" onAction="#unMute_Call" styleClass="round_btn" stylesheets="@IncomingCall.css">
+                     <graphic>
+                        <FontAwesomeIconView fx:id="unmute2" glyphName="VOLUME_UP" size="22.0" />
+                     </graphic>
+                     <effect>
+                        <InnerShadow />
+                     </effect>
+                     <padding>
+                        <Insets bottom="8.0" left="8.0" right="8.0" top="8.0" />
+                     </padding>
+                     <HBox.margin>
+                        <Insets left="40.0" top="10.0" />
+                     </HBox.margin>
+                  </Button>
+               </children>
+               <padding>
+                  <Insets bottom="8.0" left="8.0" right="8.0" top="8.0" />
+               </padding>
+            </HBox>
+            <HBox layoutX="12.0" layoutY="326.0" prefHeight="70.0" prefWidth="282.0">
+               <children>
+                  <Button fx:id="unmute" mnemonicParsing="false" onAction="#unMute_Call" styleClass="round_btn" stylesheets="@IncomingCall.css">
+                     <graphic>
+                        <FontAwesomeIconView fx:id="unmute" glyphName="MICROPHONE" size="22.0" />
+                     </graphic>
+                     <effect>
+                        <InnerShadow />
+                     </effect>
+                     <padding>
+                        <Insets bottom="8.0" left="8.0" right="8.0" top="8.0" />
+                     </padding>
+                     <HBox.margin>
+                        <Insets left="5.0" top="10.0" />
+                     </HBox.margin>
+                  </Button>
+                  <Button fx:id="unmute" mnemonicParsing="false" onAction="#unMute_Call" styleClass="round_btn" stylesheets="@IncomingCall.css">
+                     <graphic>
+                        <FontAwesomeIconView fx:id="unmute11" glyphName="VIDEO_CAMERA" size="22.0" />
+                     </graphic>
+                     <effect>
+                        <InnerShadow />
+                     </effect>
+                     <padding>
+                        <Insets bottom="8.0" left="8.0" right="8.0" top="8.0" />
+                     </padding>
+                     <HBox.margin>
+                        <Insets left="40.0" top="10.0" />
+                     </HBox.margin>
+                  </Button>
+                  <Button fx:id="unmute1" mnemonicParsing="false" onAction="#hold" styleClass="round_btn" stylesheets="@IncomingCall.css">
+                     <graphic>
+                        <FontAwesomeIconView fx:id="unmute21" glyphName="PAUSE" size="22.0" />
+                     </graphic>
+                     <effect>
+                        <InnerShadow />
+                     </effect>
+                     <padding>
+                        <Insets bottom="8.0" left="8.0" right="8.0" top="8.0" />
+                     </padding>
+                     <HBox.margin>
+                        <Insets left="40.0" top="10.0" />
+                     </HBox.margin>
+                  </Button>
+               </children>
+            </HBox>
+            <Button fx:id="unmute1" layoutX="19.0" layoutY="415.0" mnemonicParsing="false" onAction="#makeCall" styleClass="round_btn" stylesheets="@IncomingCall.css">
+               <effect>
+                  <InnerShadow />
+               </effect>
+               <graphic>
+                  <FontAwesomeIconView fill="#3a8607" glyphName="PHONE" selectionFill="BLACK" size="30" wrappingWidth="22.0" />
+               </graphic>
+               <padding>
+                  <Insets bottom="8.0" left="8.0" right="8.0" top="8.0" />
+               </padding>
+            </Button>
+            <Button fx:id="unmute12" layoutX="216.0" layoutY="423.0" mnemonicParsing="false" onAction="#hangUpCall" styleClass="round_btn" stylesheets="@IncomingCall.css">
+               <effect>
+                  <InnerShadow />
+               </effect>
+               <graphic>
+                  <FontAwesomeIconView fill="#ee0303" glyphName="PHONE" size="30" wrappingWidth="25.0" />
+               </graphic>
+               <padding>
+                  <Insets bottom="8.0" left="8.0" right="8.0" top="8.0" />
+               </padding>
+            </Button>
          </children>
       </Pane>
    </children>

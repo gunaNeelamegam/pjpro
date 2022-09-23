@@ -5,7 +5,7 @@
          "threadCnt":            1,
          "mainThreadOnly":       false,
          "nameserver":           [ ],
-         "userAgent":            "Guna Application 2.12.1",
+         "userAgent":            "Guna Application 2.12",
          "stunServer":           [ ],
          "stunTryIpv6":          false,
          "stunIgnoreFailure":    true,
@@ -89,9 +89,9 @@
       { 
          "AccountConfig":        { 
             "priority":             0,
-            "idUri":                "sip:6001@192.168.0.132",
+            "idUri":                "sip:6001@192.168.0.208",
             "AccountRegConfig":     { 
-               "registrarUri":         "sip:192.168.0.132",
+               "registrarUri":         "sip:192.168.0.208",
                "registerOnAdd":        true,
                "timeoutSec":           300,
                "retryIntervalSec":     300,
@@ -228,10 +228,10 @@
                "windowFlags":          0,
                "defaultCaptureDevice": -1,
                "defaultRenderDevice":  -2,
-               "rateControlMethod":    0,
+               "rateControlMethod":    1,
                "rateControlBandwidth": 0,
-               "startKeyframeCount":   0,
-               "startKeyframeInterval": 0
+               "startKeyframeCount":   5,
+               "startKeyframeInterval": 1000
             }
          },
          "buddies":              [ ]
