@@ -36,7 +36,7 @@
         sudo apt-get install ffmpeg libav-tools 
 	sudo  apt-get install -y  ffmpeg  libopenhpi-dev h264enc    libv4lconvert0 libv4l2rds0 libv4l-dev libv4l-0 ffmpeg libavcodec-dev libavcodec-extra libavcodec-extra58 libavcodec58 libavdevice-dev libavdevice58 libavfilter-dev libavfilter-extra7 libavformat-dev libavformat58  libavutil-dev libavresample-dev libavresample4 libavutil56 libswscale-dev libswscale5 gstreamer1.0-qt5 libportaudio2 portaudio19-dev libspeex-dev asterisk-opus libssl-dev libopencore-amrwb0 libopencore-amrwb-dev libsrtp2-dev libsrtp2-1 gstreamer1.0-vaapi libgraphics-color-perl v4l-utils gem-plugin-v4l2 libwebcam0 libwebcam0-dev
 	sudo apt-get install -y libsdl2-2.0-0 libsdl2-dev libsdl2-gfx-1.0-0  libsdl2-net-2.0-0 r-cran-openssl libcrypto++-dev
-	sudo apt-get --fix-broken install -y
+	sudo apt-get --fix-broken install -y apt install ruby gem  --no-install-recommends  gem install fpm
 	sudo apt-get install -y libncurses-dev  libavcodec-dev libswcale-dev openssl  libopencore-amrwb-dev libopencore-amrwb0 libqtavwidgets1 libqtav1  octave-video
 	baresip-ffmpeg baresip-gstreamer qt5-default
 sudo /sbin/ldconfig -v
